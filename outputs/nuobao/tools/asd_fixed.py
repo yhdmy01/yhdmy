@@ -96,13 +96,15 @@ def rounded_points(w, h, r, plane='xz', fixed=0.0, cx=0.0, cy=0.0, cz=0.0, n=8):
 def rounded_extrusion_xz(w,h,r,y,depth,layer,mat_key,name):
     pts=rounded_points(w,h,r,'xz',fixed=y)
     crv=rg.PolylineCurve(pts)
-    brep=rg.Extrusion.Create(crv, rg.Vector3d(0,depth,0), True)
+    # Rhino 8: use Brep.CreateFromExtrusion for an explicit Vector3d direction.
+    brep=rg.Brep.CreateFromExtrusion(crv, rg.Vector3d(0,depth,0), True)
     return set_obj(sc.doc.Objects.AddBrep(brep),layer,mat_key,name)
 
 def rounded_extrusion_xy(w,d,r,z,depth,layer,mat_key,name):
     pts=rounded_points(w,d,r,'xy',fixed=z)
     crv=rg.PolylineCurve(pts)
-    brep=rg.Extrusion.Create(crv, rg.Vector3d(0,0,depth), True)
+    # Rhino 8: use Brep.CreateFromExtrusion for an explicit Vector3d direction.
+    brep=rg.Brep.CreateFromExtrusion(crv, rg.Vector3d(0,0,depth), True)
     return set_obj(sc.doc.Objects.AddBrep(brep),layer,mat_key,name)
 
 def box(x0,y0,z0,x1,y1,z1,layer,mat_key,name):
